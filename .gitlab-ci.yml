@@ -1,0 +1,26 @@
+# states:
+#   - build
+
+# build:
+#   state: build
+#   image: node
+#   script:
+#     - echo "Start building App"
+#     - npm install
+#     - npm build
+#     - echo "Build success"
+
+stages:
+  - build
+
+build:
+  stage: build
+  image: node
+  script:
+    - echo "Start build"
+    - yarn
+    - yarn build
+    - echo "Build complete."
+  artifacts:
+    paths:
+      - ./build
