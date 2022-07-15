@@ -1,7 +1,19 @@
 const Cell = ({ children }) => {
   return (
-    <td style={{ border: "1px solid #000" }}>
-      <div style={{ height: "30px", maxHeight: "30px", whiteSpace: "nowrap" }}>
+    <td>
+      <div
+        style={{
+          height: "30px",
+          maxHeight: "30px",
+          whiteSpace: "nowrap",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          borderLeftWidth: 1,
+          borderLeftStyle: "solid",
+        }}
+      >
         {children}
       </div>
     </td>

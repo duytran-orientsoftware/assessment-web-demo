@@ -21,12 +21,12 @@ const App = () => {
       setWindowSize(event.currentTarget.innerHeight);
     });
 
-    return () => window.removeEventListener(subscription);
+    return () => window.removeEventListener("resize", subscription);
   }, []);
 
-  const Row = ({ index }) => {
+  const renderRow = ({ index }) => {
     return (
-      <tr>
+      <tr className="row">
         <Cell>{data[index].NO}</Cell>
         <Cell>{data[index].firstName}</Cell>
         <Cell>{data[index].lastName}</Cell>
@@ -48,10 +48,10 @@ const App = () => {
 
   return (
     <VirtualList
-      itemHeight={30 + 2 + 1}
+      itemHeight={32}
       numberOfItem={LIMIT}
       listHeight={windowSize}
-      RenderItem={Row}
+      RenderItem={renderRow}
     />
   );
 };

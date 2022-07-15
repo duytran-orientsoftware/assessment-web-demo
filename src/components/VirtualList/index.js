@@ -1,4 +1,5 @@
-import { memo, useMemo, useEffect, useRef, useState } from "react";
+import { memo, useMemo } from "react";
+import useScroll from "../../hooks/useScroll";
 
 const VirtualList = ({
   RenderItem,
@@ -7,32 +8,24 @@ const VirtualList = ({
   itemHeight,
   numberOfItemRenderAHead = 10,
 }) => {
-  const scrollRef = useRef();
-
-  const [scrollTop, setScrollTop] = useState(0);
-
-  const onScroll = (e) => {
-    setScrollTop(e.target.scrollTop);
-  };
-
-  useEffect(() => {
-    setScrollTop(scrollRef.current?.scrollTop || 0);
-
-    scrollRef.current?.addEventListener("scroll", onScroll);
-
-    return () => scrollRef.current?.removeEventListener("scroll", onScroll);
-  }, []);
+  const { scrollTop } = useScroll("ScrollView");
 
   const totalHeight = useMemo(
     () => numberOfItem * itemHeight,
     [itemHeight, numberOfItem]
   );
 
+  /**
+   * Calculate the start item to render visibleItem
+   */
   let startNode = useMemo(() => {
     const start = Math.floor(scrollTop / itemHeight) - numberOfItemRenderAHead;
     return Math.max(0, start);
   }, [itemHeight, numberOfItemRenderAHead, scrollTop]);
 
+  /**
+   * Calculate number of item should render
+   */
   let visibleItemCount = useMemo(() => {
     const calculate =
       Math.ceil(listHeight / itemHeight) + 2 * numberOfItemRenderAHead;
@@ -45,11 +38,18 @@ const VirtualList = ({
     startNode,
   ]);
 
+  /**
+   * Calculate offset to push the list available item down when scrolling
+   * Because we have numberOfItemRenderAHead so shouldn't use scrollTop to push the list down
+   */
   const offsetY = useMemo(
     () => startNode * itemHeight,
     [itemHeight, startNode]
   );
 
+  /**
+   * Start render item
+   */
   const visibleItem = useMemo(() => {
     return new Array(visibleItemCount)
       .fill()
@@ -59,10 +59,7 @@ const VirtualList = ({
   }, [startNode, visibleItemCount]);
 
   return (
-    <div
-      ref={scrollRef}
-      style={{ height: listHeight, overflow: "auto", background: "pink" }}
-    >
+    <div id="ScrollView" style={{ height: listHeight, overflow: "auto" }}>
       <div
         style={{
           overflow: "hidden",
