@@ -1,9 +1,9 @@
 import "./cell.css";
 
-const Cell = ({ children, isFirstColumn }) => {
+const Cell = ({ children, border = true }) => {
   return (
     <td>
-      <div className={`cell ${isFirstColumn ? "number-cell" : "normal-cell"}`}>
+      <div className={`cell ${border ? "display-border-left" : ""}`}>
         {children}
       </div>
     </td>

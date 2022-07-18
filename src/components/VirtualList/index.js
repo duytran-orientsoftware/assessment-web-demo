@@ -6,7 +6,7 @@ const VirtualList = ({
   numberOfItem,
   listHeight,
   itemHeight,
-  numberOfItemRenderAHead = 20,
+  numberOfItemRenderAHead = 0,
 }) => {
   const { scrollTop } = useScroll("ScrollView");
 
@@ -61,21 +61,21 @@ const VirtualList = ({
   }, [startNode, visibleItemCount]);
 
   return (
-    <div id="ScrollView" style={{ height: listHeight, overflow: "auto" }}>
-      <div
+    <div // This div help to show the visible list height
+      id="ScrollView"
+      style={{ height: listHeight, overflow: "auto" }}
+    >
+      <div // This div help render ahead full total row
         style={{
-          overflow: "hidden",
-          willChange: "transform",
           height: totalHeight,
-          position: "relative",
         }}
       >
-        <div
+        <div // This div help move the table down according to the calculate offset above
           style={{
             transform: `translateY(${offsetY}px)`,
           }}
         >
-          <table style={{ borderCollapse: "collapse", width: "100%" }}>
+          <table style={{ borderCollapse: "collapse", width: "100vw" }}>
             <tbody>{visibleItem}</tbody>
           </table>
         </div>
