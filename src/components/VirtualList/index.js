@@ -6,7 +6,7 @@ const VirtualList = ({
   numberOfItem,
   listHeight,
   itemHeight,
-  numberOfItemRenderAHead = 10,
+  numberOfItemRenderAHead = 20,
 }) => {
   const { scrollTop } = useScroll("ScrollView");
 
@@ -16,7 +16,8 @@ const VirtualList = ({
   );
 
   /**
-   * Calculate the start item to render visibleItem
+   * Calculate the start item to render visibleItem.
+   * This calculate might return negative number, if it return negative number then default in 0
    */
   let startNode = useMemo(() => {
     const start = Math.floor(scrollTop / itemHeight) - numberOfItemRenderAHead;
@@ -24,7 +25,8 @@ const VirtualList = ({
   }, [itemHeight, numberOfItemRenderAHead, scrollTop]);
 
   /**
-   * Calculate number of item should render
+   * Calculate number of item should render.
+   * If user scroll to bottom this calculate might return a bigger number than it should display. The Math.min it will help check if the calculate number is larger than the current data left
    */
   let visibleItemCount = useMemo(() => {
     const calculate =

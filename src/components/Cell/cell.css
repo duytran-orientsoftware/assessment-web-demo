@@ -1,0 +1,16 @@
+.cell {
+  height: 30px;
+  max-height: 30px;
+  padding: 0px 4px;
+}
+
+.number-cell {
+}
+
+.normal-cell {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left-width: 1px;
+  border-left-style: solid;
+}

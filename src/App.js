@@ -27,7 +27,7 @@ const App = () => {
   const renderRow = ({ index }) => {
     return (
       <tr className="row">
-        <Cell>{data[index].NO}</Cell>
+        <Cell isFirstColumn>{data[index].NO}</Cell>
         <Cell>{data[index].firstName}</Cell>
         <Cell>{data[index].lastName}</Cell>
         <Cell>{data[index].age}</Cell>

@@ -1,19 +1,9 @@
-const Cell = ({ children }) => {
+import "./cell.css";
+
+const Cell = ({ children, isFirstColumn }) => {
   return (
     <td>
-      <div
-        style={{
-          height: "30px",
-          maxHeight: "30px",
-          whiteSpace: "nowrap",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          borderLeftWidth: 1,
-          borderLeftStyle: "solid",
-        }}
-      >
+      <div className={`cell ${isFirstColumn ? "number-cell" : "normal-cell"}`}>
         {children}
       </div>
     </td>
