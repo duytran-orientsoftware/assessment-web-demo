@@ -1,13 +1,35 @@
-import { memo, useMemo } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import useScroll from "../../hooks/useScroll";
+import "./style.css";
+
+const DEFAULT_HEADER = [
+  "NO.",
+  "First Name",
+  "Last Name",
+  "Age",
+  "Gender",
+  "Phone Number",
+  "Job Type",
+  "Job Title",
+  "Job Area",
+  "Address",
+  "State",
+  "City",
+  "Zip Code",
+  "Asset",
+  "Favorite Song Name",
+];
 
 const VirtualList = ({
-  RenderItem,
+  data,
+  renderItem,
   numberOfItem,
   listHeight,
   itemHeight,
   numberOfItemRenderAHead = 0,
 }) => {
+  const tableRef = useRef(null);
+
   const { scrollTop } = useScroll("ScrollView");
 
   const totalHeight = useMemo(
@@ -55,10 +77,8 @@ const VirtualList = ({
   const visibleItem = useMemo(() => {
     return new Array(visibleItemCount)
       .fill()
-      .map((_, index) => (
-        <RenderItem key={index + startNode} index={index + startNode} />
-      ));
-  }, [startNode, visibleItemCount]);
+      .map((_, index) => renderItem(data[index + startNode]));
+  }, [data, renderItem, startNode, visibleItemCount]);
 
   return (
     <div // This div help to show the visible list height
@@ -75,7 +95,21 @@ const VirtualList = ({
             transform: `translateY(${offsetY}px)`,
           }}
         >
-          <table style={{ borderCollapse: "collapse", width: "100vw" }}>
+          <table
+            style={{
+              borderCollapse: "collapse",
+              width: "100vw",
+            }}
+            ref={tableRef}
+          >
+            <thead>
+              <tr>
+                {DEFAULT_HEADER.map((name, index) => (
+                  <th key={index}>{name}</th>
+                ))}
+              </tr>
+            </thead>
+
             <tbody>{visibleItem}</tbody>
           </table>
         </div>
